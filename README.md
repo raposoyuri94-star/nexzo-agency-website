@@ -69,6 +69,16 @@ As regras de estimativa e de preparação do email são funções independentes 
 
 Cada página tem título, descrição e HTML próprios. A compilação gera versões `.html` e `index.html` por diretório para permitir abrir os endereços com ou sem barra final em alojamento estático. Gera também `404.html` e `sitemap.xml`.
 
+## Publicar no GitHub Pages
+
+A publicação é feita por `.github/workflows/pages.yml` quando há um envio para `main`, ou manualmente em Actions. O workflow instala as dependências, verifica a formatação, executa os testes, compila as páginas e publica `dist` no ambiente `github-pages`.
+
+Em Settings > Pages, a origem deve ser **GitHub Actions**. O endereço deste projeto é `https://raposoyuri94-star.github.io/nexzo-agency-website/`.
+
+O workflow configura `VITE_BASE_PATH` com a subpasta do repositório e `VITE_SITE_ORIGIN` com o domínio do GitHub Pages. As imagens, as ligações, o router, os metadados e o sitemap respeitam essa configuração. Sem estas variáveis, o desenvolvimento local e o alojamento na raiz continuam a funcionar.
+
+Os testes usam o Chrome instalado localmente e o Chromium instalado pelo workflow no GitHub Actions.
+
 ## Editar conteúdos
 
 - Contactos e Instagram: `src/config/site.js`.

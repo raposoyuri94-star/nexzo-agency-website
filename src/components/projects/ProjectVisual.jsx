@@ -1,3 +1,5 @@
+import { assetUrl } from '../../config/site';
+
 export default function ProjectVisual({ project, detail = false, eager = false }) {
   return (
     <div className={`project-visual visual-${project.id}`} aria-hidden="true">
@@ -11,7 +13,7 @@ export default function ProjectVisual({ project, detail = false, eager = false }
         </div>
       </div>
       <img
-        src={detail ? project.detailImage : project.image}
+        src={assetUrl(detail ? project.detailImage : project.image)}
         alt=""
         loading={eager ? 'eager' : 'lazy'}
         width="1440"

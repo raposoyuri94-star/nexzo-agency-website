@@ -2,12 +2,13 @@ import React from 'react';
 import { createRoot, hydrateRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router';
 import App from './app/App';
+import { site } from './config/site';
 import './styles/index.css';
 
 const root = document.getElementById('root');
 const application = (
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename={site.basePath}>
       <App />
     </BrowserRouter>
   </React.StrictMode>

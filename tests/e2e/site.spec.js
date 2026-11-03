@@ -1,5 +1,9 @@
 import { test, expect } from '@playwright/test';
 
+const basePath = (process.env.VITE_BASE_PATH || '/').replace(/\/$/, '');
+const deploymentPath = (pathname) => `${basePath}${pathname}`;
+const visit = (page, pathname) => page.goto(deploymentPath(pathname));
+
 test('as páginas têm conteúdo próprio e carregam diretamente', async ({ page }) => {
   const errors = [];
   page.on('pageerror', (error) => errors.push(error.message));
@@ -14,11 +18,17 @@ test('as páginas têm conteúdo próprio e carregam diretamente', async ({ page
     ['/projetos/morrow-coffee', 'Morrow Coffee'],
     ['/projetos/hair-kulture', 'Hair Kulture'],
   ]) {
-    const response = await page.goto(route);
+    const response = await visit(page, route);
     expect(response.status()).toBe(200);
     await expect(page).toHaveTitle(new RegExp(title));
     await expect(page.locator('main h1')).toHaveCount(1);
     await expect(page.locator('main h1')).toBeVisible();
+    await page.locator('img').evaluateAll(async (images) => {
+      images.forEach((image) => {
+        image.loading = 'eager';
+      });
+      await Promise.all(images.map((image) => image.decode()));
+    });
     await expect(page.locator('main')).not.toContainText(
       /Identidade visual|logótipo|tipografia|guia de marca/i,
     );
@@ -30,7 +40,7 @@ test('as páginas têm conteúdo próprio e carregam diretamente', async ({ page
 });
 
 test('o Instagram usa apenas o ícone e o perfil correto', async ({ page }) => {
-  await page.goto('/contacto');
+  await visit(page, '/contacto');
   const links = page.getByRole('link', { name: /Instagram da Nexzo/ });
   await expect(links).toHaveCount(2);
   for (const link of await links.all()) {
@@ -43,7 +53,7 @@ test('o Instagram usa apenas o ícone e o perfil correto', async ({ page }) => {
 });
 
 test('navega para projetos reais e usa histórico do navegador', async ({ page }) => {
-  await page.goto('/projetos');
+  await visit(page, '/projetos');
   await page.getByRole('button', { name: 'Lojas online', exact: true }).click();
   await expect(page.locator('.project-card')).toHaveCount(1);
   await page.getByRole('button', { name: 'Todos', exact: true }).click();
@@ -52,7 +62,7 @@ test('navega para projetos reais e usa histórico do navegador', async ({ page }
   await page.getByRole('button', { name: 'Detalhes do site' }).click();
   await expect(page.locator('.project-gallery img')).toHaveAttribute(
     'src',
-    '/images/projects/morrow-detail.jpg',
+    deploymentPath('/images/projects/morrow-detail.jpg'),
   );
   await page.goBack();
   await expect(page).toHaveURL(/\/projetos$/);
@@ -61,7 +71,7 @@ test('navega para projetos reais e usa histórico do navegador', async ({ page }
 });
 
 test('a estimativa chega preenchida ao pedido de orçamento', async ({ page }) => {
-  await page.goto('/precos');
+  await visit(page, '/precos');
   await page.getByLabel('Tipo de projeto').selectOption('institucional');
   await page.getByLabel('Páginas adicionais').selectOption('2');
   await expect(page.getByLabel('Incluir identidade visual')).toHaveCount(0);
@@ -73,7 +83,7 @@ test('a estimativa chega preenchida ao pedido de orçamento', async ({ page }) =
   await expect(page.getByLabel('Conte-nos um pouco sobre o projeto')).toHaveValue(
     /Páginas adicionais: 2/,
   );
-  await page.goto('/precos');
+  await visit(page, '/precos');
   await page.getByLabel('Tipo de projeto').selectOption('loja');
   await page.getByRole('link', { name: 'Pedir um orçamento', exact: true }).click();
   await expect(page.getByLabel('Conte-nos um pouco sobre o projeto')).toHaveValue(
@@ -82,7 +92,7 @@ test('a estimativa chega preenchida ao pedido de orçamento', async ({ page }) =
 });
 
 test('prepara o email sem o enviar e permite descarregar o resumo', async ({ page }) => {
-  await page.goto('/contacto');
+  await visit(page, '/contacto');
   await page.getByLabel('O seu nome').fill('Ana & Luís');
   await page.getByLabel('Endereço de email').fill('ana@example.com');
   await page
@@ -103,7 +113,7 @@ test('prepara o email sem o enviar e permite descarregar o resumo', async ({ pag
   const download = page.waitForEvent('download');
   await page.getByRole('button', { name: 'Guardar uma cópia', exact: true }).click();
   expect((await download).suggestedFilename()).toBe('nexzo-resumo-do-projeto.txt');
-  await page.goto('/privacidade');
+  await visit(page, '/privacidade');
   await page.getByRole('button', { name: 'Apagar o meu rascunho' }).click();
   expect(await page.evaluate(() => localStorage.getItem('nexzo-project-draft'))).toBeNull();
 });
@@ -113,7 +123,7 @@ test('as páginas pré-renderizadas são legíveis sem JavaScript', async ({ bro
   const page = await context.newPage();
   try {
     for (const suffix of ['', '/']) {
-      await page.goto(`http://127.0.0.1:4173/precos${suffix}`);
+      await page.goto(`http://127.0.0.1:4173${deploymentPath(`/precos${suffix}`)}`);
       await expect(page.locator('meta[name="description"]')).toHaveAttribute(
         'content',
         /Consulte as estimativas em MZN para sites e lojas online/,
@@ -121,7 +131,7 @@ test('as páginas pré-renderizadas são legíveis sem JavaScript', async ({ bro
       await expect(
         page.getByRole('heading', { name: 'Site institucional', exact: true }),
       ).toBeVisible();
-      await page.goto(`http://127.0.0.1:4173/projetos/hair-kulture${suffix}`);
+      await page.goto(`http://127.0.0.1:4173${deploymentPath(`/projetos/hair-kulture${suffix}`)}`);
       await expect(page.locator('meta[name="description"]')).toHaveAttribute(
         'content',
         /Uma loja de demonstração para perucas e tissagens/,
@@ -136,7 +146,7 @@ test('as páginas pré-renderizadas são legíveis sem JavaScript', async ({ bro
 test('a navegação móvel fecha com Escape e os URLs desconhecidos têm saída', async ({
   page,
 }, info) => {
-  await page.goto('/');
+  await visit(page, '/');
   if (info.project.name === 'mobile') {
     await page.getByRole('button', { name: 'Abrir navegação' }).click();
     await page.keyboard.press('Escape');
@@ -151,7 +161,7 @@ test('a navegação móvel fecha com Escape e os URLs desconhecidos têm saída'
       .click();
     await expect(page).toHaveURL(/\/precos$/);
   }
-  await page.goto('/pagina-inexistente');
+  await visit(page, '/pagina-inexistente');
   await expect(page.getByRole('heading', { name: 'Este endereço não existe' })).toBeVisible();
   await page.getByRole('link', { name: 'Voltar ao início', exact: true }).click();
   await expect(page).toHaveURL(/\/$/);

@@ -19,7 +19,7 @@ const escape = (value) =>
 
 try {
   const { render } = await server.ssrLoadModule('/src/entry-server.jsx');
-  const { site } = await server.ssrLoadModule('/src/config/site.js');
+  const { pageUrl } = await server.ssrLoadModule('/src/config/site.js');
   for (const pathname of [...publicPages.map(({ path: route }) => route), '/404']) {
     const metadata = getPageMetadata(pathname);
     const html = template
@@ -38,7 +38,7 @@ try {
         '<!--page-head-->',
         metadata.noindex
           ? '<meta name="robots" content="noindex" />'
-          : `<link rel="canonical" href="${site.origin}${pathname}" />`,
+          : `<link rel="canonical" href="${pageUrl(pathname)}" />`,
       );
     const destination =
       pathname === '/404'
@@ -52,8 +52,9 @@ try {
   }
   await writeFile(
     path.join(directory, 'sitemap.xml'),
-    `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${publicPages.map(({ path: route }) => `<url><loc>${site.origin}${route}</loc></url>`).join('')}</urlset>\n`,
+    `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${publicPages.map(({ path: route }) => `<url><loc>${pageUrl(route)}</loc></url>`).join('')}</urlset>\n`,
   );
+  await writeFile(path.join(directory, '.nojekyll'), '');
   console.log(`Pré-renderizadas ${publicPages.length} páginas e uma página de erro.`);
 } finally {
   await server.close();

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router';
 import { getPageMetadata } from './pageMetadata';
-import { site } from '../config/site';
+import { pageUrl } from '../config/site';
 
 export default function RouteEffects() {
   const { pathname } = useLocation();
@@ -13,7 +13,7 @@ export default function RouteEffects() {
     document
       .querySelector('meta[property="og:description"]')
       ?.setAttribute('content', page.description);
-    document.querySelector('link[rel="canonical"]')?.setAttribute('href', site.origin + page.path);
+    document.querySelector('link[rel="canonical"]')?.setAttribute('href', pageUrl(page.path));
     window.scrollTo({ top: 0, behavior: 'instant' });
     const frame = requestAnimationFrame(() =>
       document.querySelector('main h1')?.focus({ preventScroll: true }),

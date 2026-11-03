@@ -1,4 +1,5 @@
 import { Check } from 'lucide-react';
+import { assetUrl } from '../config/site';
 import PageIntro from '../components/ui/PageIntro';
 import ProcessSteps from '../components/sections/ProcessSteps';
 import ContactBanner from '../components/sections/ContactBanner';
@@ -20,7 +21,7 @@ export default function StudioPage() {
       <section className="container studio-grid">
         <div className="studio-image">
           <img
-            src="/images/studio.jpg"
+            src={assetUrl('/images/studio.jpg')}
             alt="Espaço de trabalho luminoso com gabinetes envidraçados"
             width="1400"
             height="1000"
