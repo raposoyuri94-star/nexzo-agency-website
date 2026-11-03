@@ -1,19 +1,22 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { estimateProject, estimateFromSearch, estimateContactUrl } from '../../src/features/pricing/estimate.js';
+import {
+  estimateProject,
+  estimateFromSearch,
+  estimateContactUrl,
+} from '../../src/features/pricing/estimate.js';
 
-test('soma páginas e identidade sem misturar valores mensais', () => {
-  const result = estimateProject({ planId: 'institucional', extraPages: 2, identity: true });
-  assert.equal(result.min, 38000);
-  assert.equal(result.max, 72000);
+test('soma apenas as páginas adicionais ao plano de site', () => {
+  const result = estimateProject({ planId: 'institucional', extraPages: 2 });
+  assert.equal(result.min, 30000);
+  assert.equal(result.max, 54000);
 });
 
-test('não duplica identidade nem acrescenta páginas num projeto de marca', () => {
-  const result = estimateProject({ planId: 'identidade', extraPages: 10, identity: true });
-  assert.equal(result.min, 8000);
-  assert.equal(result.max, 18000);
-  assert.equal(result.extraPages, 0);
-  assert.equal(result.identity, false);
+test('ignora extras antigos que já não fazem parte da oferta', () => {
+  const result = estimateFromSearch('plano=institucional&paginas=2&identidade=sim');
+  assert.equal(result.min, 30000);
+  assert.equal(result.max, 54000);
+  assert.equal(result.extraPages, 2);
 });
 
 test('limita parâmetros inválidos de URLs', () => {
@@ -23,7 +26,7 @@ test('limita parâmetros inválidos de URLs', () => {
 });
 
 test('leva a estimativa para o contacto sem incluir dados pessoais no URL', () => {
-  const original = estimateProject({ planId: 'loja', extraPages: 3, identity: true });
+  const original = estimateProject({ planId: 'loja', extraPages: 3 });
   const url = estimateContactUrl(original);
   const recovered = estimateFromSearch(url.split('?')[1]);
   assert.equal(recovered.min, original.min);

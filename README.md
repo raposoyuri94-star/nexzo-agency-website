@@ -13,14 +13,16 @@ npm run dev
 
 ## Comandos
 
-| Comando | Função |
-| --- | --- |
-| `npm run dev` | Desenvolvimento local |
-| `npm run build` | Compilação e pré-renderização das páginas |
-| `npm run preview` | Pré-visualização da compilação |
-| `npm run test:unit` | Testes dos cálculos e do formulário |
-| `npm run test:e2e` | Testes em Chrome para computador e telemóvel |
-| `npm test` | Testes unitários e de navegador |
+| Comando                | Função                                       |
+| ---------------------- | -------------------------------------------- |
+| `npm run dev`          | Desenvolvimento local                        |
+| `npm run build`        | Compilação e pré-renderização das páginas    |
+| `npm run preview`      | Pré-visualização da compilação               |
+| `npm run test:unit`    | Testes dos cálculos e do formulário          |
+| `npm run test:e2e`     | Testes em Chrome para computador e telemóvel |
+| `npm test`             | Testes unitários e de navegador              |
+| `npm run format`       | Formatação automática do código              |
+| `npm run format:check` | Verificação da formatação                    |
 
 Execute `npm run build` antes dos testes de navegador. Em ambientes sem Chrome, altere o `channel` em `playwright.config.js` para um navegador disponível.
 
@@ -53,17 +55,17 @@ As regras de estimativa e de preparação do email são funções independentes 
 
 ## Páginas
 
-| Endereço | Conteúdo |
-| --- | --- |
-| `/` | Apresentação breve e projetos em destaque |
-| `/projetos` | Portefólio com filtros |
-| `/projetos/morrow-coffee` | Apresentação do Morrow Coffee |
-| `/projetos/hair-kulture` | Apresentação da Hair Kulture |
-| `/servicos` | Serviços, processo e perguntas frequentes |
-| `/precos` | Estimativas em meticais e calculadora |
-| `/estudio` | Apresentação da Nexzo |
-| `/contacto` | Preparação do pedido de projeto |
-| `/privacidade` | Informação sobre dados e eliminação do rascunho |
+| Endereço                  | Conteúdo                                        |
+| ------------------------- | ----------------------------------------------- |
+| `/`                       | Apresentação breve e projetos em destaque       |
+| `/projetos`               | Portefólio com filtros                          |
+| `/projetos/morrow-coffee` | Apresentação do Morrow Coffee                   |
+| `/projetos/hair-kulture`  | Apresentação da Hair Kulture                    |
+| `/servicos`               | Serviços, processo e perguntas frequentes       |
+| `/precos`                 | Estimativas em meticais e calculadora           |
+| `/estudio`                | Apresentação da Nexzo                           |
+| `/contacto`               | Preparação do pedido de projeto                 |
+| `/privacidade`            | Informação sobre dados e eliminação do rascunho |
 
 Cada página tem título, descrição e HTML próprios. A compilação gera versões `.html` e `index.html` por diretório para permitir abrir os endereços com ou sem barra final em alojamento estático. Gera também `404.html` e `sitemap.xml`.
 
@@ -83,7 +85,7 @@ Para acrescentar uma página, crie o componente em `src/pages`, a rota em `src/a
 
 Os valores em MZN são estimativas editoriais iniciais, não preços de mercado verificados nem orçamentos finais. Devem ser revistos pelo estúdio quando o âmbito ou os preços comerciais forem definidos.
 
-A calculadora soma o plano escolhido, as páginas adicionais e a identidade visual opcional. Não soma o acompanhamento mensal ao custo inicial. Os parâmetros enviados para o contacto contêm apenas a seleção do projeto, sem dados pessoais.
+A oferta está limitada à criação e renovação de sites e lojas online. A calculadora soma o plano escolhido e as páginas adicionais. Os parâmetros enviados para o contacto contêm apenas a seleção do projeto, sem dados pessoais.
 
 Domínio, alojamento, conteúdos, ferramentas pagas e serviços externos são orçamentados separadamente. Os prazos e as condições de pagamento são definidos na proposta.
 

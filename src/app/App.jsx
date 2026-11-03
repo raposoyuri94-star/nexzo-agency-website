@@ -13,15 +13,22 @@ import PrivacyPage from '../pages/PrivacyPage';
 import NotFoundPage from '../pages/NotFoundPage';
 
 export default function App() {
-  return <ErrorBoundary><RouteEffects /><Routes><Route element={<Layout />}>
-    <Route index element={<HomePage />} />
-    <Route path="projetos" element={<ProjectsPage />} />
-    <Route path="projetos/:slug" element={<ProjectDetailPage />} />
-    <Route path="servicos" element={<ServicesPage />} />
-    <Route path="precos" element={<PricingPage />} />
-    <Route path="estudio" element={<StudioPage />} />
-    <Route path="contacto" element={<ContactPage />} />
-    <Route path="privacidade" element={<PrivacyPage />} />
-    <Route path="*" element={<NotFoundPage />} />
-  </Route></Routes></ErrorBoundary>;
+  return (
+    <ErrorBoundary>
+      <RouteEffects />
+      <Routes>
+        <Route element={<Layout />}>
+          <Route index element={<HomePage />} />
+          <Route path="projetos" element={<ProjectsPage />} />
+          <Route path="projetos/:slug" element={<ProjectDetailPage />} />
+          <Route path="servicos" element={<ServicesPage />} />
+          <Route path="precos" element={<PricingPage />} />
+          <Route path="estudio" element={<StudioPage />} />
+          <Route path="contacto" element={<ContactPage />} />
+          <Route path="privacidade" element={<PrivacyPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Route>
+      </Routes>
+    </ErrorBoundary>
+  );
 }

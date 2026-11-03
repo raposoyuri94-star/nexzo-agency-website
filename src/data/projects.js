@@ -1,26 +1,50 @@
 export const projects = [
   {
-    id: 'morrow', slug: 'morrow-coffee', name: 'Morrow Coffee',
-    category: 'Café e gastronomia', kind: 'Design e desenvolvimento',
+    id: 'morrow',
+    slug: 'morrow-coffee',
+    name: 'Morrow Coffee',
+    category: 'Café e gastronomia',
+    kind: 'Design e desenvolvimento',
     tags: ['Design', 'Desenvolvimento'],
     summary: 'Um site para descobrir o próximo café favorito',
-    description: 'Uma identidade em tons de castanho e creme, com imagens de produto em destaque e uma navegação que convida a explorar a ementa.',
-    challenge: 'Dar ao café uma presença digital que comunique o ambiente da marca e permita conhecer a oferta sem complicar a navegação.',
-    approach: 'Partimos de uma paleta acolhedora e de tipografia com personalidade. Organizámos as bebidas por categoria e criámos um guia para ajudar a descobrir cada tipo de café.',
-    image: '/images/projects/morrow.jpg', detailImage: '/images/projects/morrow-detail.jpg',
-    deliverables: ['Design adaptado a todos os ecrãs', 'Ementa com filtros por categoria', 'Apresentação de produtos e guia de cafés', 'Desenvolvimento em React'],
+    description:
+      'Uma identidade em tons de castanho e creme, com imagens de produto em destaque e uma navegação que convida a explorar a ementa.',
+    challenge:
+      'Dar ao café uma presença digital que comunique o ambiente da marca e permita conhecer a oferta sem complicar a navegação.',
+    approach:
+      'Demos destaque às imagens dos produtos e organizámos as bebidas por categoria. Criámos também um guia para ajudar a descobrir cada tipo de café.',
+    image: '/images/projects/morrow.jpg',
+    detailImage: '/images/projects/morrow-detail.jpg',
+    deliverables: [
+      'Design adaptado a todos os ecrãs',
+      'Ementa com filtros por categoria',
+      'Apresentação de produtos e guia de cafés',
+      'Desenvolvimento em React',
+    ],
     note: 'Projeto de apresentação para café, com ementa e preços demonstrativos. Não inclui encomendas online.',
   },
   {
-    id: 'hair-kulture', slug: 'hair-kulture', name: 'Hair Kulture',
-    category: 'Beleza e cuidados capilares', kind: 'Design e desenvolvimento de loja',
+    id: 'hair-kulture',
+    slug: 'hair-kulture',
+    name: 'Hair Kulture',
+    category: 'Beleza e cuidados capilares',
+    kind: 'Design e desenvolvimento de loja',
     tags: ['Design', 'Desenvolvimento', 'Lojas online'],
     summary: 'Um catálogo pensado para explorar cada estilo',
-    description: 'Uma loja de demonstração para perucas e tissagens, com uma identidade em rosa e branco e um catálogo adaptado ao telemóvel.',
-    challenge: 'Apresentar diferentes texturas e comprimentos de forma clara, dando espaço às imagens e facilitando a descoberta dos produtos.',
-    approach: 'Criámos filtros por textura, pesquisa por nome, favoritos e um carrinho de demonstração. A experiência mantém as escolhas no navegador para permitir continuar a explorar.',
-    image: '/images/projects/hair-kulture.jpg', detailImage: '/images/projects/hair-kulture-detail.jpg',
-    deliverables: ['Design de loja e catálogo de produtos', 'Pesquisa e filtros por textura', 'Favoritos e carrinho de demonstração', 'Desenvolvimento em React'],
+    description:
+      'Uma loja de demonstração para perucas e tissagens, com uma identidade em rosa e branco e um catálogo adaptado ao telemóvel.',
+    challenge:
+      'Apresentar diferentes texturas e comprimentos de forma clara, dando espaço às imagens e facilitando a descoberta dos produtos.',
+    approach:
+      'Criámos filtros por textura, pesquisa por nome, favoritos e um carrinho de demonstração. A experiência mantém as escolhas no navegador para permitir continuar a explorar.',
+    image: '/images/projects/hair-kulture.jpg',
+    detailImage: '/images/projects/hair-kulture-detail.jpg',
+    deliverables: [
+      'Design de loja e catálogo de produtos',
+      'Pesquisa e filtros por textura',
+      'Favoritos e carrinho de demonstração',
+      'Desenvolvimento em React',
+    ],
     note: 'Projeto de demonstração. Não inclui processamento de pagamentos nem envio de encomendas.',
   },
 ];
