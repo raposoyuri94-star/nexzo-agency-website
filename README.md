@@ -26,6 +26,7 @@ npm run preview
 - Navegação móvel, janelas acessíveis pelo teclado e suporte a movimento reduzido.
 - Formulário que prepara um email para nexzoagency@gmail.com, com opções para abrir a aplicação de email ou o Gmail.
 - Informação de privacidade e opção de apagar o rascunho.
+- Instagram @nexzo.agency na área de contacto e no rodapé, com abertura num novo separador.
 
 Os textos editáveis do portefólio, dos serviços e das perguntas frequentes estão em `src/content.js`. A interface está em `src/App.jsx`.
 

@@ -1,6 +1,7 @@
 import { Monitor, Code2, PenTool } from 'lucide-react';
 
 export const CONTACT_EMAIL = import.meta.env.VITE_CONTACT_EMAIL?.trim() || 'nexzoagency@gmail.com';
+export const INSTAGRAM = { handle: '@nexzo.agency', url: 'https://www.instagram.com/nexzo.agency/' };
 
 export const PROJECTS = [
   {
