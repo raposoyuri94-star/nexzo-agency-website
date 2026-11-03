@@ -1,56 +1,104 @@
 # Nexzo
 
-Site em português para a Nexzo, um estúdio de design e desenvolvimento de sites. Construído com React, Vite e ícones Lucide.
+Site em português com React, React Router e Vite. As páginas são pré-renderizadas na compilação e ativadas no navegador, mantendo a navegação sem recarregar o documento.
 
-## Executar localmente
+## Desenvolvimento
+
+Requisitos: Node.js 22.12 ou superior e npm. Os testes de navegador usam o Google Chrome instalado.
 
 ```sh
-npm install
+npm ci
 npm run dev
 ```
 
-## Compilar para produção
+## Comandos
 
-```sh
-npm run build
-npm run preview
+| Comando | Função |
+| --- | --- |
+| `npm run dev` | Desenvolvimento local |
+| `npm run build` | Compilação e pré-renderização das páginas |
+| `npm run preview` | Pré-visualização da compilação |
+| `npm run test:unit` | Testes dos cálculos e do formulário |
+| `npm run test:e2e` | Testes em Chrome para computador e telemóvel |
+| `npm test` | Testes unitários e de navegador |
+
+Execute `npm run build` antes dos testes de navegador. Em ambientes sem Chrome, altere o `channel` em `playwright.config.js` para um navegador disponível.
+
+## Organização
+
+```text
+src/
+  app/                 Rotas, metadados, navegação e gestão de erros
+  components/
+    layout/            Cabeçalho, rodapé e estrutura partilhada
+    projects/          Grelha, capturas e galeria dos projetos
+    sections/          Serviços, processo e contacto partilhados
+    ui/                Botões, marca, Instagram e perguntas frequentes
+  config/              Identidade, contactos e navegação
+  data/                Conteúdos e preços editáveis
+  features/
+    contact/           Formulário, rascunhos e preparação do email
+    pricing/           Estimativa e regras de cálculo
+  pages/               Conteúdo específico de cada página
+  styles/              Variáveis, base, estrutura, componentes e páginas
+  entry-server.jsx     Renderização estática para a compilação
+  main.jsx             Entrada do navegador e hidratação
+scripts/prerender.mjs   HTML por endereço, página 404 e sitemap
+tests/unit/            Regras de negócio sem navegador
+tests/e2e/             Percursos completos do visitante
+public/images/         Capturas dos projetos e imagem do estúdio
 ```
 
-## Conteúdos
+As regras de estimativa e de preparação do email são funções independentes de React e estão cobertas por testes unitários.
 
-- Identidade Nexzo com logótipo e favicon próprios.
-- Portefólio com os projetos Morrow Coffee e Hair Kulture.
-- Capturas reais das páginas iniciais e de detalhes dos dois projetos.
-- Filtros de projetos e janelas de apresentação, sem ligações para o código-fonte.
-- Serviços, apresentação do estúdio, processo e perguntas frequentes.
-- Navegação móvel, janelas acessíveis pelo teclado e suporte a movimento reduzido.
-- Formulário que prepara um email para nexzoagency@gmail.com, com opções para abrir a aplicação de email ou o Gmail.
-- Informação de privacidade e opção de apagar o rascunho.
-- Instagram @nexzo.agency na área de contacto e no rodapé, com abertura num novo separador.
+## Páginas
 
-Os textos editáveis do portefólio, dos serviços e das perguntas frequentes estão em `src/content.js`. A interface está em `src/App.jsx`.
+| Endereço | Conteúdo |
+| --- | --- |
+| `/` | Apresentação breve e projetos em destaque |
+| `/projetos` | Portefólio com filtros |
+| `/projetos/morrow-coffee` | Apresentação do Morrow Coffee |
+| `/projetos/hair-kulture` | Apresentação da Hair Kulture |
+| `/servicos` | Serviços, processo e perguntas frequentes |
+| `/precos` | Estimativas em meticais e calculadora |
+| `/estudio` | Apresentação da Nexzo |
+| `/contacto` | Preparação do pedido de projeto |
+| `/privacidade` | Informação sobre dados e eliminação do rascunho |
 
-## Projetos do portefólio
+Cada página tem título, descrição e HTML próprios. A compilação gera versões `.html` e `index.html` por diretório para permitir abrir os endereços com ou sem barra final em alojamento estático. Gera também `404.html` e `sitemap.xml`.
 
-As imagens em `public/images/projects/` foram capturadas a partir das compilações locais existentes dos projetos do utilizador. Os projetos originais não foram alterados.
+## Editar conteúdos
 
-- **Morrow Coffee:** projeto de apresentação para café com ementa interativa.
-- **Hair Kulture:** loja de demonstração para perucas e tissagens, com catálogo, filtros, favoritos e carrinho.
+- Contactos e Instagram: `src/config/site.js`.
+- Projetos: `src/data/projects.js`.
+- Serviços e processo: `src/data/services.js`.
+- Perguntas frequentes: `src/data/faqs.js`.
+- Preços e âmbito dos planos: `src/data/pricing.js`.
+- Regras da estimativa: `src/features/pricing/estimate.js`.
+- Metadados e lista de páginas: `src/app/pageMetadata.js`.
 
-São projetos desenvolvidos, sem alegações de clientes pagantes, resultados comerciais ou funcionalidades de pagamento. As respetivas páginas de detalhe esclarecem o caráter de demonstração dos catálogos.
+Para acrescentar uma página, crie o componente em `src/pages`, a rota em `src/app/App.jsx` e os metadados em `src/app/pageMetadata.js`.
 
-## Contacto
+## Preços
 
-O endereço público de contacto é `nexzoagency@gmail.com`, definido em `src/content.js`. Pode substituí-lo com `VITE_CONTACT_EMAIL` num ficheiro `.env` e voltar a compilar.
+Os valores em MZN são estimativas editoriais iniciais, não preços de mercado verificados nem orçamentos finais. Devem ser revistos pelo estúdio quando o âmbito ou os preços comerciais forem definidos.
 
-O botão de contacto abre um formulário com nome, email, serviço, investimento opcional e descrição. Preparar o email não envia dados. O passo seguinte mostra o destinatário e oferece duas opções: abrir a aplicação de email através de `mailto:` ou abrir uma nova mensagem no Gmail. Ambas incluem o destinatário, assunto e resumo preenchidos. O visitante revê a mensagem e confirma o envio na aplicação escolhida.
+A calculadora soma o plano escolhido, as páginas adicionais e a identidade visual opcional. Não soma o acompanhamento mensal ao custo inicial. Os parâmetros enviados para o contacto contêm apenas a seleção do projeto, sem dados pessoais.
 
-O formulário não envia emails automaticamente e não guarda pedidos num servidor. O rascunho fica apenas neste navegador. Também é possível descarregar uma cópia do resumo. Os testes verificam as ligações e os respetivos campos sem enviar emails nem abrir uma conta Gmail.
+Domínio, alojamento, conteúdos, ferramentas pagas e serviços externos são orçamentados separadamente. Os prazos e as condições de pagamento são definidos na proposta.
 
-O campo de investimento aceita um valor e uma moeda à escolha. Os rascunhos da versão anterior em inglês continuam a poder ser abertos, com migração dos tipos de serviço.
+## Contacto e privacidade
 
-## Imagens e fontes
+O endereço público é `nexzoagency@gmail.com`, configurado em `src/config/site.js`. Pode substituí-lo com `VITE_CONTACT_EMAIL` num ficheiro `.env` e voltar a compilar. O Instagram é `https://www.instagram.com/nexzo_agency/` e aparece como ícone acessível.
 
-A imagem do espaço de trabalho ilustra o ambiente criativo e não representa um escritório real da Nexzo. Origem: https://images.unsplash.com/photo-1497366754035-f200968a6e72
+O formulário prepara a mensagem para o estúdio. O visitante escolhe a aplicação de email ou o Gmail, revê o texto e confirma o envio. O site não envia mensagens automaticamente, não armazena pedidos num servidor e não confirma uma entrega que não consegue verificar.
 
-As fontes Manrope e DM Sans são carregadas através do Google Fonts, com alternativas locais. Os logótipos e as imagens dos projetos aparecem nas capturas dos respetivos sites, preservando as identidades originais.
+O rascunho fica no navegador e pode ser eliminado em `/privacidade`. O formulário funciona quando o armazenamento está indisponível. Os testes inspecionam as ligações sem enviar emails nem abrir contas Gmail.
+
+## Imagens
+
+As capturas de Morrow Coffee e Hair Kulture foram feitas a partir dos projetos locais, sem alterar os ficheiros originais. O site não expõe ligações para os repositórios. As páginas de detalhe esclarecem o caráter demonstrativo dos catálogos e carrinhos.
+
+A imagem do espaço de trabalho é ilustrativa e não representa um escritório real da Nexzo. Origem: https://images.unsplash.com/photo-1497366754035-f200968a6e72
+
+Manrope e DM Sans são carregadas através do Google Fonts, com alternativas locais. O layout respeita movimento reduzido e inclui navegação por teclado, rótulos de formulário e nomes acessíveis para os ícones.

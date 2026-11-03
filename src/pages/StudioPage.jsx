@@ -1,0 +1,8 @@
+import { Check } from 'lucide-react';
+import PageIntro from '../components/ui/PageIntro';
+import ProcessSteps from '../components/sections/ProcessSteps';
+import ContactBanner from '../components/sections/ContactBanner';
+
+export default function StudioPage() {
+  return <><PageIntro label="O estúdio" title={<>Um pequeno estúdio<br />ao seu lado</>} description="A Nexzo ajuda negócios e marcas independentes a criar uma presença online com identidade própria." /><section className="container studio-grid"><div className="studio-image"><img src="/images/studio.jpg" alt="Espaço de trabalho luminoso com gabinetes envidraçados" width="1400" height="1000" /><span>Imagem ilustrativa de Unsplash</span></div><div className="studio-copy"><h2>Tempo para ouvir<br />e atenção aos detalhes</h2><p>Trabalhamos com quem está a lançar um negócio, renovar uma empresa ou pôr uma ideia em prática. Criamos um site que apresenta o que faz e ajuda as pessoas a encontrar o que precisam.</p><p>Queremos conhecer o seu negócio antes de começar. Mantemos o contacto ao longo do projeto e explicamos cada etapa, do primeiro desenho ao lançamento.</p><ul className="included-list">{['Conversas diretas e honestas', 'Um âmbito claro antes de começar', 'Cuidado do princípio ao fim', 'Um site com a sua identidade'].map((item) => <li key={item}><Check size={17} aria-hidden="true" />{item}</li>)}</ul></div></section><section className="section surface-section"><div className="container"><div className="section-heading"><div><span className="section-label">O nosso modo de trabalhar</span><h2>Fazemos o caminho consigo</h2></div></div><ProcessSteps /></div></section><ContactBanner /></>;
+}

@@ -1,0 +1,15 @@
+:root {
+  --color-ink: #202127;
+  --color-muted: #6d7481;
+  --color-blue: #3358ff;
+  --color-blue-hover: #2546de;
+  --color-blue-light: #edf1ff;
+  --color-line: #e5e8ef;
+  --color-surface: #f6f7fb;
+  --color-white: #fff;
+  --font-body: 'DM Sans', sans-serif;
+  --font-display: 'Manrope', sans-serif;
+  --radius-small: 6px;
+  --radius-medium: 10px;
+  --container: 1200px;
+}
