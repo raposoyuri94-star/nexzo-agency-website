@@ -1,43 +1,53 @@
 # Nexzo
 
-A responsive React website for an independent website design and development agency, built with Vite, React, and Lucide icons.
+Site em português para a Nexzo, um estúdio de design e desenvolvimento de sites. Construído com React, Vite e ícones Lucide.
 
-## Run locally
+## Executar localmente
 
 ```sh
 npm install
 npm run dev
 ```
 
-## Production build
+## Compilar para produção
 
 ```sh
 npm run build
 npm run preview
 ```
 
-## Included
+## Conteúdos
 
-- Custom Nexzo wordmark and favicon.
-- Three original, clearly labeled concept projects with detailed project dialogs.
-- Filterable portfolio, services, studio story, process, and accessible FAQs.
-- Mobile navigation, keyboard-accessible native dialogs, and reduced-motion support.
-- Project brief form with browser-local drafts and a downloadable text file.
-- Editable privacy information and a control to clear stored drafts.
+- Identidade Nexzo com logótipo e favicon próprios.
+- Portefólio com os projetos Morrow Coffee e Hair Kulture.
+- Capturas reais das páginas iniciais e de detalhes dos dois projetos.
+- Filtros de projetos e janelas de apresentação com ligações para os respetivos repositórios.
+- Serviços, apresentação do estúdio, processo e perguntas frequentes.
+- Navegação móvel, janelas acessíveis pelo teclado e suporte a movimento reduzido.
+- Formulário com rascunho local e resumo do projeto em português para descarregar.
+- Informação de privacidade e opção de apagar o rascunho.
 
-## Contact configuration
+Os textos editáveis do portefólio, dos serviços e das perguntas frequentes estão em `src/content.js`. A interface está em `src/App.jsx`.
 
-Copy `.env.example` to `.env` and set `VITE_CONTACT_EMAIL` to the studio's actual email address. Rebuild after changing the value. With an address configured, the form opens the visitor's email application with their project brief; the visitor sends the email themselves. Without an address, the form downloads a brief and clearly states that nothing has been submitted. There is no submission backend.
+## Projetos do portefólio
 
-The budget choices are prospective client budget ranges, not published agency prices. Portfolio work is illustrative; no client endorsements, testimonials, or performance claims are implied.
+As imagens em `public/images/projects/` foram capturadas a partir das compilações locais existentes dos projetos do utilizador. Os projetos originais não foram alterados.
 
-## Images and fonts
+- **Morrow Coffee:** projeto de apresentação para café com ementa interativa. Código: https://github.com/raposoyuri94-star/Template-Website
+- **Hair Kulture:** loja de demonstração para perucas e tissagens, com catálogo, filtros, favoritos e carrinho. Código: https://github.com/raposoyuri94-star/hair-kulture
 
-Photographs are bundled locally in `public/images`:
+São projetos desenvolvidos, sem alegações de clientes pagantes, resultados comerciais ou funcionalidades de pagamento. As respetivas páginas de detalhe esclarecem o caráter de demonstração dos catálogos.
 
-- Architecture: https://images.unsplash.com/photo-1600607687939-ce8a6c25118c
-- Mountains: https://images.unsplash.com/photo-1464822759023-fed622ff2c3b
-- Coffee: https://images.unsplash.com/photo-1447933601403-0c6688de566e
-- Workspace: https://images.unsplash.com/photo-1497366754035-f200968a6e72
+## Contacto
 
-The workspace image illustrates the studio's creative atmosphere; it is not represented as an actual Nexzo office. Manrope, DM Sans, and Kalam load from Google Fonts, with system fallbacks. The portfolio brand identities and website mockups are made in HTML/CSS.
+Copie `.env.example` para `.env` e defina `VITE_CONTACT_EMAIL` com o endereço real do estúdio. Volte a compilar depois da alteração.
+
+Com um endereço configurado, o formulário abre a aplicação de email do visitante com o resumo do projeto; o envio é feito pelo visitante. Sem um endereço, descarrega um ficheiro de texto e informa que nenhum dado foi enviado. Não existe um servidor de submissão.
+
+O campo de investimento aceita um valor e uma moeda à escolha. Os rascunhos da versão anterior em inglês continuam a poder ser abertos, com migração dos tipos de serviço.
+
+## Imagens e fontes
+
+A imagem do espaço de trabalho ilustra o ambiente criativo e não representa um escritório real da Nexzo. Origem: https://images.unsplash.com/photo-1497366754035-f200968a6e72
+
+As fontes Manrope, DM Sans e Kalam são carregadas através do Google Fonts, com alternativas locais. Os logótipos e as imagens dos projetos aparecem nas capturas dos respetivos sites, preservando as identidades originais.
