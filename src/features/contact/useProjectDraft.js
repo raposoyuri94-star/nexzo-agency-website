@@ -13,27 +13,30 @@ export default function useProjectDraft(search) {
     } catch {
       /* O formulário funciona sem armazenamento. */
     }
-    const params = new URLSearchParams(search);
-    if (params.has('plano')) {
-      const estimate = estimateFromSearch(search);
-      const previousDetails = draft.details.startsWith('Tenho interesse no plano ')
-        ? draft.details.split('\n\n').slice(1).join('\n\n')
-        : draft.details;
-      draft = {
-        ...draft,
-        service: estimate.plan.service,
-        budget: formatRange(estimate),
-        details:
-          `Tenho interesse no plano ${estimate.plan.name}.${estimate.extraPages ? ` Páginas adicionais: ${estimate.extraPages}.` : ''}\n\n${previousDetails}`.trim(),
-      };
-    } else if (
-      params.get('servico') &&
-      ['website', 'redesign', 'store', 'other'].includes(params.get('servico'))
-    ) {
-      draft.service = params.get('servico');
-    }
     setForm(draft);
     setReady(true);
+  }, []);
+
+  useEffect(() => {
+    setForm((draft) => {
+      const params = new URLSearchParams(search);
+      if (params.has('plano')) {
+        const estimate = estimateFromSearch(search);
+        const previousDetails = draft.details.startsWith('Tenho interesse no plano ')
+          ? draft.details.split('\n\n').slice(1).join('\n\n')
+          : draft.details;
+        return {
+          ...draft,
+          service: estimate.plan.service,
+          budget: formatRange(estimate),
+          details:
+            `Tenho interesse no plano ${estimate.plan.name}.${estimate.extraPages ? ` Páginas adicionais: ${estimate.extraPages}.` : ''}\n\n${previousDetails}`.trim(),
+        };
+      }
+      const service = params.get('servico');
+      if (['website', 'redesign', 'store', 'other'].includes(service)) return { ...draft, service };
+      return draft;
+    });
   }, [search]);
 
   useEffect(() => {

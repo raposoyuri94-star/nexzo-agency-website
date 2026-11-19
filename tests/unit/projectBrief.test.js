@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {
   parseDraft,
   emptyDraft,
+  createBrief,
   createEmailLinks,
 } from '../../src/features/contact/projectBrief.js';
 
@@ -32,5 +33,27 @@ test('preserva acentos e caracteres especiais sem alterar o destinatário', () =
   assert.equal(mailto.searchParams.get('subject'), 'Pedido de projeto de Ana & Luís');
   assert.match(mailto.searchParams.get('body'), /café & chá/);
   assert.equal(gmail.searchParams.get('to'), 'nexzoagency@gmail.com');
-  assert.equal(gmail.searchParams.get('body'), mailto.searchParams.get('body'));
+  assert.equal(
+    gmail.searchParams.get('body'),
+    mailto.searchParams.get('body').replaceAll('\r\n', '\n'),
+  );
+});
+
+test('codifica espaços e quebras de linha para aplicações de email', () => {
+  const form = {
+    ...emptyDraft,
+    name: 'Ana + Luís',
+    email: 'ana+projeto@example.com',
+    details: 'Café & chá.\nCatálogo + contactos.',
+  };
+  const { email } = createEmailLinks(form, 'nexzoagency@gmail.com');
+  const fields = Object.fromEntries(
+    new URL(email).search
+      .slice(1)
+      .split('&')
+      .map((field) => field.split('=').map(decodeURIComponent)),
+  );
+  assert.equal(fields.subject, 'Pedido de projeto de Ana + Luís');
+  assert.equal(fields.body, createBrief(form).replace(/\r?\n/g, '\r\n'));
+  assert.doesNotMatch(email, /\+/);
 });

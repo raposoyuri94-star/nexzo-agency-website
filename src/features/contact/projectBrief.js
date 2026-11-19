@@ -36,7 +36,7 @@ export function createEmailLinks(form, recipient) {
   const subject = `Pedido de projeto de ${form.name.trim()}`;
   const body = createBrief(form);
   return {
-    email: `mailto:${recipient}?${new URLSearchParams({ subject, body })}`,
+    email: `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body.replace(/\r\n|\r|\n/g, '\r\n'))}`,
     gmail: `https://mail.google.com/mail/?${new URLSearchParams({ view: 'cm', fs: '1', to: recipient, su: subject, body })}`,
   };
 }

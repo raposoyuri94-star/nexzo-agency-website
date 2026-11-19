@@ -98,6 +98,12 @@ test('prepara o email sem o enviar e permite descarregar o resumo', async ({ pag
   await page
     .getByLabel('Conte-nos um pouco sobre o projeto')
     .fill('Um site para o nosso café, com ementa e contactos.');
+  await page.reload();
+  await expect(page.getByLabel('O seu nome')).toHaveValue('Ana & Luís');
+  await expect(page.getByLabel('Endereço de email')).toHaveValue('ana@example.com');
+  await expect(page.getByLabel('Conte-nos um pouco sobre o projeto')).toHaveValue(
+    'Um site para o nosso café, com ementa e contactos.',
+  );
   await page.getByRole('button', { name: 'Preparar email', exact: true }).click();
   await expect(page.getByRole('status')).toHaveText('A mensagem ainda não foi enviada.');
   const mailto = new URL(
@@ -109,7 +115,9 @@ test('prepara o email sem o enviar e permite descarregar o resumo', async ({ pag
     await page.getByRole('link', { name: /Abrir no Gmail/ }).getAttribute('href'),
   );
   expect(gmail.searchParams.get('to')).toBe('nexzoagency@gmail.com');
-  expect(gmail.searchParams.get('body')).toBe(mailto.searchParams.get('body'));
+  expect(gmail.searchParams.get('body')).toBe(
+    mailto.searchParams.get('body').replaceAll('\r\n', '\n'),
+  );
   const download = page.waitForEvent('download');
   await page.getByRole('button', { name: 'Guardar uma cópia', exact: true }).click();
   expect((await download).suggestedFilename()).toBe('nexzo-resumo-do-projeto.txt');
@@ -165,4 +173,68 @@ test('a navegação móvel fecha com Escape e os URLs desconhecidos têm saída'
   await expect(page.getByRole('heading', { name: 'Este endereço não existe' })).toBeVisible();
   await page.getByRole('link', { name: 'Voltar ao início', exact: true }).click();
   await expect(page).toHaveURL(/\/$/);
+});
+
+test('os ficheiros HTML abrem a página correta sem erros de hidratação', async ({ page }) => {
+  const errors = [];
+  page.on('pageerror', (error) => errors.push(error.message));
+  for (const [route, expectedPath, title] of [
+    ['/index.html', '/', 'Nexzo'],
+    ['/precos.html', '/precos', 'Preços'],
+    ['/servicos/index.html', '/servicos', 'Serviços'],
+    ['/projetos/hair-kulture.html', '/projetos/hair-kulture', 'Hair Kulture'],
+    ['/projetos/morrow-coffee/index.html', '/projetos/morrow-coffee', 'Morrow Coffee'],
+  ]) {
+    await visit(page, `${route}?origem=html#main-content`);
+    await expect(page).toHaveURL(
+      `http://127.0.0.1:4173${deploymentPath(expectedPath)}?origem=html#main-content`,
+    );
+    await expect(page).toHaveTitle(new RegExp(title));
+    await expect(page.locator('main h1')).toBeVisible();
+  }
+  expect(errors).toEqual([]);
+});
+
+test('atualiza canonical e noindex ao entrar e sair de páginas desconhecidas', async ({ page }) => {
+  await visit(page, '/404.html');
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex');
+  await expect(page.locator('link[rel="canonical"]')).toHaveCount(0);
+  await page.getByRole('link', { name: 'Voltar ao início', exact: true }).click();
+  await expect(page.locator('meta[name="robots"]')).toHaveCount(0);
+  await expect(page.locator('link[rel="canonical"]')).toHaveCount(1);
+  await page.goBack();
+  await expect(page.getByRole('heading', { name: 'Este endereço não existe' })).toBeVisible();
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex');
+  await expect(page.locator('link[rel="canonical"]')).toHaveCount(0);
+
+  await visit(page, '/pagina-inexistente');
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex');
+  await expect(page.locator('link[rel="canonical"]')).toHaveCount(0);
+});
+
+test('preserva os detalhes do pedido quando o armazenamento está indisponível', async ({
+  page,
+}) => {
+  await page.addInitScript(() => {
+    for (const method of ['getItem', 'setItem', 'removeItem']) {
+      Storage.prototype[method] = () => {
+        throw new DOMException('Armazenamento indisponível', 'SecurityError');
+      };
+    }
+  });
+  await visit(page, '/contacto?plano=loja');
+  await page.getByLabel('O seu nome').fill('Ana Silva');
+  await page.getByLabel('Endereço de email').fill('ana@example.com');
+  await page
+    .getByLabel('Conte-nos um pouco sobre o projeto')
+    .fill('Uma loja para os nossos produtos.');
+  await page.locator('.header-contact').click();
+  await expect(page).toHaveURL(/\/contacto$/);
+  await expect(page.getByLabel('O seu nome')).toHaveValue('Ana Silva');
+  await expect(page.getByLabel('Endereço de email')).toHaveValue('ana@example.com');
+  await expect(page.getByLabel('Conte-nos um pouco sobre o projeto')).toHaveValue(
+    'Uma loja para os nossos produtos.',
+  );
+  await page.getByRole('button', { name: 'Preparar email', exact: true }).click();
+  await expect(page.getByRole('status')).toHaveText('A mensagem ainda não foi enviada.');
 });

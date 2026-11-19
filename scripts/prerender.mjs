@@ -6,6 +6,7 @@ import { publicPages, getPageMetadata } from '../src/app/pageMetadata.js';
 const directory = path.resolve('dist');
 const template = await readFile(path.join(directory, 'index.html'), 'utf8');
 const server = await createServer({
+  mode: 'production',
   server: { middlewareMode: true, hmr: false },
   appType: 'custom',
   logLevel: 'error',
