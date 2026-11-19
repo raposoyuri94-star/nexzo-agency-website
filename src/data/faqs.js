@@ -22,7 +22,7 @@ export const faqs = [
   {
     question: 'O que acontece depois do lançamento?',
     answer:
-      'Apresentamos o site, verificamos consigo o que foi combinado e explicamos o que precisa para utilizar o seu novo site.',
+      'Apresentamos o site, verificamos consigo o que foi combinado e explicamos o que precisa para utilizar o seu novo site. Também disponibilizamos manutenção por 5 000 MT por mês, com o âmbito definido na proposta.',
   },
 ];
 

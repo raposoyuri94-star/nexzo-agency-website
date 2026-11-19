@@ -1,5 +1,5 @@
 import { Check } from 'lucide-react';
-import { pricingPlans } from '../data/pricing';
+import { pricingPlans, monthlyMaintenance } from '../data/pricing';
 import { pricingFaqs } from '../data/faqs';
 import { formatMoney } from '../features/pricing/estimate';
 import EstimateCalculator from '../features/pricing/EstimateCalculator';
@@ -50,6 +50,17 @@ export default function PricingPage() {
             </article>
           ))}
         </div>
+        <article className="pricing-card" style={{ marginTop: '24px' }}>
+          <h2>Manutenção do site</h2>
+          <div className="plan-price">
+            <strong>{formatMoney(monthlyMaintenance)}</strong>
+            <span>por mês</span>
+          </div>
+          <p>Serviço mensal de manutenção. O âmbito é definido na proposta.</p>
+          <Button to="/contacto?servico=other" secondary>
+            Pedir manutenção
+          </Button>
+        </article>
         <p className="pricing-disclaimer">
           Valores indicativos em MZN. Domínio, alojamento, conteúdos e serviços externos são
           orçamentados à parte. A proposta define o âmbito, os prazos e as condições de pagamento.

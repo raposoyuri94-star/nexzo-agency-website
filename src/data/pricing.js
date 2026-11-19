@@ -4,8 +4,8 @@ export const pricingPlans = [
     id: 'essencial',
     name: 'Site essencial',
     subtitle: 'Uma presença simples para começar',
-    min: 12000,
-    max: 20000,
+    min: 15000,
+    max: 25000,
     service: 'website',
     scope: 'Uma página',
     includes: [
@@ -19,8 +19,8 @@ export const pricingPlans = [
     id: 'institucional',
     name: 'Site institucional',
     subtitle: 'Espaço para apresentar a sua empresa',
-    min: 25000,
-    max: 45000,
+    min: 30000,
+    max: 55000,
     service: 'website',
     scope: 'Até 5 páginas',
     featured: true,
@@ -35,8 +35,8 @@ export const pricingPlans = [
     id: 'loja',
     name: 'Loja online',
     subtitle: 'Uma base para o seu catálogo',
-    min: 45000,
-    max: 80000,
+    min: 55000,
+    max: 100000,
     service: 'store',
     scope: 'Catálogo e percursos de compra',
     includes: [
@@ -49,3 +49,5 @@ export const pricingPlans = [
 ];
 
 export const pricingExtras = { extraPage: { min: 2500, max: 4500 } };
+
+export const monthlyMaintenance = 5000;

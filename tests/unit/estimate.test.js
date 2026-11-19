@@ -8,14 +8,14 @@ import {
 
 test('soma apenas as páginas adicionais ao plano de site', () => {
   const result = estimateProject({ planId: 'institucional', extraPages: 2 });
-  assert.equal(result.min, 30000);
-  assert.equal(result.max, 54000);
+  assert.equal(result.min, 35000);
+  assert.equal(result.max, 64000);
 });
 
 test('ignora extras antigos que já não fazem parte da oferta', () => {
   const result = estimateFromSearch('plano=institucional&paginas=2&identidade=sim');
-  assert.equal(result.min, 30000);
-  assert.equal(result.max, 54000);
+  assert.equal(result.min, 35000);
+  assert.equal(result.max, 64000);
   assert.equal(result.extraPages, 2);
 });
 
