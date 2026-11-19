@@ -75,11 +75,11 @@ test('a estimativa chega preenchida ao pedido de orçamento', async ({ page }) =
   await page.getByLabel('Tipo de projeto').selectOption('institucional');
   await page.getByLabel('Páginas adicionais').selectOption('2');
   await expect(page.getByLabel('Incluir identidade visual')).toHaveCount(0);
-  await expect(page.locator('.estimate-total strong')).toContainText(/35\s*000 MT a 64\s*000 MT/);
+  await expect(page.locator('.estimate-total strong')).toContainText(/40\s*000 MT a 69\s*000 MT/);
   await page.getByRole('link', { name: 'Pedir um orçamento', exact: true }).click();
   await expect(page).toHaveURL(/\/contacto\?/);
   await expect(page.getByLabel('O que tem em mente?')).toHaveValue('website');
-  await expect(page.getByLabel('Investimento previsto')).toHaveValue(/35\s*000 MT a 64\s*000 MT/);
+  await expect(page.getByLabel('Investimento previsto')).toHaveValue(/40\s*000 MT a 69\s*000 MT/);
   await expect(page.getByLabel('Conte-nos um pouco sobre o projeto')).toHaveValue(
     /Páginas adicionais: 2/,
   );
